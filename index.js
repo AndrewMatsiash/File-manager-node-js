@@ -11,6 +11,12 @@ const sayGoodby = () => {
 	console.log(`Thank you for using File Manager, ${userName}, goodbye!`);
 };
 
+const sayCurrentlyPath = () => {
+	console.log(`You are currently in ${__dirname}`);
+};
+
+sayCurrentlyPath();
+
 sayHallo();
 
 function promptInput(prompt, handler) {
