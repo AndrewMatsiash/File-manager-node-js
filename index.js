@@ -1,7 +1,11 @@
 const readline = require('readline');
+const fs = require('fs');
+const os = require('os');
 const rl = readline.createInterface(process.stdin, process.stdout);
 
+const userHomeDir = os.homedir();
 const userName = process.argv.at(-1).split('=')[1];
+let currentPath = userHomeDir;
 
 const sayHallo = () => {
 	console.log(`Welcome to the File Manager, ${userName}!`);
@@ -12,12 +16,11 @@ const sayGoodby = () => {
 };
 
 const sayCurrentlyPath = () => {
-	console.log(`You are currently in ${__dirname}`);
+	console.log(`You are currently in ${currentPath}`);
 };
 
-sayCurrentlyPath();
-
 sayHallo();
+sayCurrentlyPath();
 
 function promptInput(prompt, handler) {
 	rl.question(prompt, input => {
