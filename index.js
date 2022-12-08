@@ -1,26 +1,21 @@
-const readline = require('readline');
-const fs = require('fs');
-const os = require('os');
+import readline from 'readline';
+import fs from 'fs';
+import os from 'os';
+import path from 'path';
+import { sayCurrentlyPath, sayGoodby, sayHallo } from './helper.js';
 const rl = readline.createInterface(process.stdin, process.stdout);
 
 const userHomeDir = os.homedir();
 const userName = process.argv.at(-1).split('=')[1];
 let currentPath = userHomeDir;
 
-const sayHallo = () => {
-	console.log(`Welcome to the File Manager, ${userName}!`);
-};
+sayHallo(userName);
+sayCurrentlyPath(userHomeDir);
 
-const sayGoodby = () => {
-	console.log(`Thank you for using File Manager, ${userName}, goodbye!`);
+const cdDir = root => {
+	if (path === '..') currentPath = 'dfdf';
+	console.log(currentPath);
 };
-
-const sayCurrentlyPath = () => {
-	console.log(`You are currently in ${currentPath}`);
-};
-
-sayHallo();
-sayCurrentlyPath();
 
 function promptInput(prompt, handler) {
 	rl.question(prompt, input => {
@@ -33,9 +28,16 @@ function promptInput(prompt, handler) {
 }
 
 promptInput('app> ', input => {
-	switch (input) {
-		case 'my command':
-			// handle this command
+	const strFromConsole = input.trim().split(' ');
+	console.log(strFromConsole.length);
+	const command = strFromConsole[0];
+	const params = strFromConsole.length > 1 ? strFromConsole[1] : '';
+
+	console.log(command, params);
+	switch (command) {
+		case 'cd':
+			// currentPath = 'jaaaaaaaa';
+			cdDir(params);
 			break;
 		case 'exit':
 			sayGoodby();
@@ -44,5 +46,5 @@ promptInput('app> ', input => {
 });
 
 process.on('exit', () => {
-	sayGoodby();
+	sayGoodby(userName);
 });
