@@ -9,3 +9,28 @@ export const sayGoodby = (userName) => {
 export const sayCurrentlyPath = (currentPath) => {
 	console.log(`You are currently in ${currentPath}`);
 };
+
+export const navigationByDirectories = async (directory) => {
+  if (directory === "..") {
+    currentPath = join(currentPath, "..");
+    return;
+  }
+
+  if (path.extname(directory)) {
+    console.log(`cd: not a directory: ${newPath}`);
+    return;
+  }
+
+  if (isAbsolute(directory)) {
+    currentPath = newPath;
+    return;
+  }
+
+  try {
+    const newPathDir = join(currentPath, directory);
+  await  fs.access(newPathDir);
+    currentPath = newPathDir;
+  } catch {
+    console.log("wrong path");
+  } 
+};

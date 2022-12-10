@@ -1,50 +1,42 @@
-import readline from 'readline';
-import fs from 'fs';
-import os from 'os';
-import path from 'path';
-import { sayCurrentlyPath, sayGoodby, sayHallo } from './helper.js';
+import readline from "readline";
+import fs from "fs/promises";
+import os from "os";
+import path, { join, isAbsolute, extname } from "path";
+import { navigationByDirectories, sayCurrentlyPath, sayGoodby, sayHallo } from "./helper.js";
 const rl = readline.createInterface(process.stdin, process.stdout);
 
 const userHomeDir = os.homedir();
-const userName = process.argv.at(-1).split('=')[1];
-let currentPath = userHomeDir;
+const userName = process.argv.at(-1).split("=")[1];
+let currentPath = "/Users/andrej/Desktop/File-manager-node-js/index.js";
 
 sayHallo(userName);
 sayCurrentlyPath(userHomeDir);
 
-const cdDir = root => {
-	if (path === '..') currentPath = 'dfdf';
-	console.log(currentPath);
-};
 
 function promptInput(prompt, handler) {
-	rl.question(prompt, input => {
-		if (handler(input) !== false) {
-			promptInput(prompt, handler);
-		} else {
-			rl.close();
-		}
-	});
+  rl.question(prompt, (input) => {
+    if (handler(input) !== false) {
+      promptInput(prompt, handler);
+    } else {
+      rl.close();
+    }
+  });
 }
 
-promptInput('app> ', input => {
-	const strFromConsole = input.trim().split(' ');
-	console.log(strFromConsole.length);
-	const command = strFromConsole[0];
-	const params = strFromConsole.length > 1 ? strFromConsole[1] : '';
+promptInput("app> ", (input) => {
+  const strFromConsole = input.replace(/ +/g, " ").trim().split(" ");
+  const command = strFromConsole[0];
+  const params = strFromConsole.length > 1 ? strFromConsole[1] : "";
 
-	console.log(command, params);
-	switch (command) {
-		case 'cd':
-			// currentPath = 'jaaaaaaaa';
-			cdDir(params);
-			break;
-		case 'exit':
-			sayGoodby();
-			return false;
-	}
+  switch (command) {
+    case "cd":
+      navigationByDirectories(params).then(() => sayCurrentlyPath(currentPath));
+      break;
+    case "exit":
+      return false;
+  }
 });
 
-process.on('exit', () => {
-	sayGoodby(userName);
+process.on("exit", () => {
+  sayGoodby(userName);
 });

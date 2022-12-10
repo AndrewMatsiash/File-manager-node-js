@@ -4,6 +4,7 @@
 	"description": "File  manager ",
 	"main": "index.js",
 	"type": "module",
+	"args": ["a","bugs"],
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"start": "node index.js"
