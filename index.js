@@ -1,17 +1,15 @@
 import readline from "readline";
-import fs from "fs/promises";
-import os from "os";
-import path, { join, isAbsolute, extname } from "path";
-import { navigationByDirectories, sayCurrentlyPath, sayGoodby, sayHallo } from "./helper.js";
+import os, { homedir } from "os";
+
+import { navigationByDirectories, sayCurrentlyPath, sayGoodby, sayHallo, showDirectory } from "./helper.js";
 const rl = readline.createInterface(process.stdin, process.stdout);
 
-const userHomeDir = os.homedir();
+const userHomeDir = homedir();
 const userName = process.argv.at(-1).split("=")[1];
-let currentPath = "/Users/andrej/Desktop/File-manager-node-js/index.js";
+let currentPath = userHomeDir;
 
 sayHallo(userName);
 sayCurrentlyPath(userHomeDir);
-
 
 function promptInput(prompt, handler) {
   rl.question(prompt, (input) => {
@@ -23,14 +21,17 @@ function promptInput(prompt, handler) {
   });
 }
 
-promptInput("app> ", (input) => {
+promptInput("app>", (input) => {
   const strFromConsole = input.replace(/ +/g, " ").trim().split(" ");
   const command = strFromConsole[0];
   const params = strFromConsole.length > 1 ? strFromConsole[1] : "";
 
-  switch (command) {
+  switch (true) {
     case "cd":
       navigationByDirectories(params).then(() => sayCurrentlyPath(currentPath));
+      break;
+    case command === "ls" && params.length === 0:
+       showDirectory(currentPath).then(() => sayCurrentlyPath(currentPath));;
       break;
     case "exit":
       return false;

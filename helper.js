@@ -1,3 +1,7 @@
+import path, { join, isAbsolute, extname } from "path";
+import fs from "fs/promises";
+
+
 export const sayHallo = (userName) => {
 	console.log(`Welcome to the File Manager, ${userName}!`);
 };
@@ -34,3 +38,15 @@ export const navigationByDirectories = async (directory) => {
     console.log("wrong path");
   } 
 };
+
+export const showDirectory = async (currentPath) => {
+	const directory = await fs.readdir(currentPath, { withFileTypes: true });
+	
+		const dataDir = directory.reduce((result, currentValue, i) => {
+			const type = currentValue.isDirectory() ? "Directory" : "File" 
+			const name =  directory[i].name ;
+			return [...result, {type, name}];
+		}, []);
+	
+		console.table(dataDir);
+	};
