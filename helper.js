@@ -62,3 +62,11 @@ export  const  readFile = async(path) => {
     })
     readStream.on('end', () => process.stdout._write(result));
     }
+
+
+  export  const createEmptyFile =async (currentPath,fileName) => {
+      fs.open(join(currentPath,fileName), 'wx', (err) => {
+            if(err) console.log('a file with the same name already exists');;
+            console.log('File created');
+        });  
+    }

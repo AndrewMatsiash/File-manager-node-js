@@ -2,7 +2,7 @@ import readline from "readline";
 import os, { homedir } from "os";
 import fs from "fs";
 import path, { join, isAbsolute, extname } from "path";
-import {  moveUpTheDirectory, navigationByDirectories, readFile, sayCurrentlyPath, sayGoodby, sayHallo, showDirectory } from "./helper.js";
+import {  createEmptyFile, moveUpTheDirectory, navigationByDirectories, readFile, sayCurrentlyPath, sayGoodby, sayHallo, showDirectory } from "./helper.js";
 
 const rl = readline.createInterface(process.stdin, process.stdout);
 
@@ -24,6 +24,7 @@ function promptInput(prompt, handler) {
 }
 
 
+
 promptInput("app>", (input) => {
   const strFromConsole = input.replace(/ +/g, " ").trim().split(" ");
   const command = strFromConsole[0];
@@ -43,6 +44,9 @@ promptInput("app>", (input) => {
       break;
     case command === "cat": 
        readFile(params).then(() => sayCurrentlyPath(currentPath));
+      break;
+    case command === "add": 
+       createEmptyFile(currentPath,params).then(() => sayCurrentlyPath(currentPath));
       break;
     case "exit":
       return false;
