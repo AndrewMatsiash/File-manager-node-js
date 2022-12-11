@@ -1,8 +1,12 @@
 import readline from "readline";
 import os, { homedir } from "os";
-import fs from "fs";
-import path, { join, isAbsolute, extname } from "path";
-import {  createEmptyFile, moveUpTheDirectory, navigationByDirectories, readFile, sayCurrentlyPath, sayGoodby, sayHallo, showDirectory } from "./helper.js";
+import { sayCurrentlyPath, sayGoodby, sayHallo } from "./helper.js";
+import { moveUpTheDirectory } from "./fs/moveUpTheDirectory.js";
+import { showDirectory } from "./fs/showDirectory.js";
+import { readFile } from "./fs/readFile.js";
+import { createEmptyFile } from "./fs/createEmptyFile.js";
+import { renameFile } from "./fs/renameFile.js";
+
 
 const rl = readline.createInterface(process.stdin, process.stdout);
 
@@ -23,30 +27,32 @@ function promptInput(prompt, handler) {
   });
 }
 
-
-
 promptInput("app>", (input) => {
   const strFromConsole = input.replace(/ +/g, " ").trim().split(" ");
   const command = strFromConsole[0];
-  const params = strFromConsole.length > 1 ? strFromConsole[1] : "";
+  const params = strFromConsole.length > 1 ? strFromConsole : "";
 
   switch (true) {
     case command === "up":
-       moveUpTheDirectory(currentPath).then((path) => {
-        currentPath = path
-        sayCurrentlyPath(currentPath)});
+      moveUpTheDirectory(currentPath).then((path) => {
+        currentPath = path;
+        sayCurrentlyPath(currentPath);
+      });
       break;
     case "cd":
-      navigationByDirectories(params).then(() => sayCurrentlyPath(currentPath));
+      navigationByDirectories(params[1]).then(() => sayCurrentlyPath(currentPath));
       break;
     case command === "ls" && params.length === 0:
-       showDirectory(currentPath).then(() => sayCurrentlyPath(currentPath));;
+      showDirectory(currentPath).then(() => sayCurrentlyPath(currentPath));
       break;
-    case command === "cat": 
-       readFile(params).then(() => sayCurrentlyPath(currentPath));
+    case command === "cat":
+      readFile(params).then(() => sayCurrentlyPath(currentPath));
       break;
-    case command === "add": 
-       createEmptyFile(currentPath,params).then(() => sayCurrentlyPath(currentPath));
+    case command === "add":
+      createEmptyFile(currentPath, params[1]).then(() => sayCurrentlyPath(currentPath));
+      break;
+    case command === "rn" && params.length === 3:
+      renameFile(currentPath, params[1], params[2]).then(() => sayCurrentlyPath(currentPath));
       break;
     case "exit":
       return false;
