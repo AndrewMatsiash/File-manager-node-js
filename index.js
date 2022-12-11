@@ -1,21 +1,22 @@
 import readline from "readline";
 import os, { homedir } from "os";
+import path from "path";
 import { sayCurrentlyPath, sayGoodby, sayHallo } from "./helper.js";
 import { moveUpTheDirectory } from "./fs/moveUpTheDirectory.js";
 import { showDirectory } from "./fs/showDirectory.js";
 import { readFile } from "./fs/readFile.js";
 import { createEmptyFile } from "./fs/createEmptyFile.js";
 import { renameFile } from "./fs/renameFile.js";
-
+import { navigationByDirectories } from "./fs/navigationByDirectories.js";
 
 const rl = readline.createInterface(process.stdin, process.stdout);
 
 const userHomeDir = homedir();
 const userName = process.argv.at(-1).split("=")[1];
-let currentPath = userHomeDir;
+let currentPath = process.cwd();
 
 sayHallo(userName);
-sayCurrentlyPath(userHomeDir);
+sayCurrentlyPath(currentPath);
 
 function promptInput(prompt, handler) {
   rl.question(prompt, (input) => {
@@ -27,6 +28,12 @@ function promptInput(prompt, handler) {
   });
 }
 
+const copyFile = (file) => {
+  const readStream = fsPromise.createReadStream(path.join(process.cw, file));
+  const writeStream = fsPromise.createWriteStream(path.join(currentPath, file));
+  readStream.pipe(readStream,writeStream);
+};
+
 promptInput("app>", (input) => {
   const strFromConsole = input.replace(/ +/g, " ").trim().split(" ");
   const command = strFromConsole[0];
@@ -34,29 +41,30 @@ promptInput("app>", (input) => {
 
   switch (true) {
     case command === "up":
-      moveUpTheDirectory(currentPath).then((path) => {
-        currentPath = path;
-        sayCurrentlyPath(currentPath);
-      });
+      moveUpTheDirectory();
       break;
-    case "cd":
-      navigationByDirectories(params[1]).then(() => sayCurrentlyPath(currentPath));
+    case "cd" && params.length === 1:
+      navigationByDirectories(params[1])
       break;
     case command === "ls" && params.length === 0:
-      showDirectory(currentPath).then(() => sayCurrentlyPath(currentPath));
+      showDirectory();
       break;
     case command === "cat":
-      readFile(params).then(() => sayCurrentlyPath(currentPath));
+      readFile(params);
       break;
     case command === "add":
-      createEmptyFile(currentPath, params[1]).then(() => sayCurrentlyPath(currentPath));
+      createEmptyFile(params[1]);
       break;
     case command === "rn" && params.length === 3:
-      renameFile(currentPath, params[1], params[2]).then(() => sayCurrentlyPath(currentPath));
+      renameFile(params[1], params[2])
+      break;
+    case command === "cp" && params.length === 3:
+      copyFile(params[1], params[2]);
       break;
     case "exit":
       return false;
   }
+  sayCurrentlyPath(process.cwd());
 });
 
 process.on("exit", () => {

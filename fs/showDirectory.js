@@ -1,7 +1,7 @@
 import * as fsPromise from "fs/promises";
 
-export const showDirectory = async (currentPath) => {
-  const directory = await fsPromise.readdir(currentPath, { withFileTypes: true });
+export const showDirectory = async () => {
+  const directory = await fsPromise.readdir(process.cwd(), { withFileTypes: true });
 
   const dataDir = directory.reduce((result, currentValue, i) => {
     const type = currentValue.isDirectory() ? "Directory" : "File";
