@@ -1,7 +1,9 @@
 import readline from "readline";
 import os, { homedir } from "os";
+import fs from "fs";
 
-import { navigationByDirectories, sayCurrentlyPath, sayGoodby, sayHallo, showDirectory } from "./helper.js";
+import { navigationByDirectories, readFile, sayCurrentlyPath, sayGoodby, sayHallo, showDirectory } from "./helper.js";
+import { join } from "path";
 const rl = readline.createInterface(process.stdin, process.stdout);
 
 const userHomeDir = homedir();
@@ -21,6 +23,8 @@ function promptInput(prompt, handler) {
   });
 }
 
+
+
 promptInput("app>", (input) => {
   const strFromConsole = input.replace(/ +/g, " ").trim().split(" ");
   const command = strFromConsole[0];
@@ -32,6 +36,9 @@ promptInput("app>", (input) => {
       break;
     case command === "ls" && params.length === 0:
        showDirectory(currentPath).then(() => sayCurrentlyPath(currentPath));;
+      break;
+    case command === "cat": 
+       readFile(params).then(() => sayCurrentlyPath(currentPath));
       break;
     case "exit":
       return false;

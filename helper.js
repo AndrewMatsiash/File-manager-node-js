@@ -50,3 +50,13 @@ export const showDirectory = async (currentPath) => {
 	
 		console.table(dataDir);
 	};
+
+
+export  const  readFile = async(path) => {
+    const readStream = fs.createReadStream(join(path));
+    let  result = ''
+    await readStream.on('data', (chunk) => {
+    result += chunk
+    })
+    readStream.on('end', () => process.stdout._write(result));
+    }
