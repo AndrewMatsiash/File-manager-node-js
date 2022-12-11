@@ -1,9 +1,9 @@
 import readline from "readline";
 import os, { homedir } from "os";
 import fs from "fs";
+import path, { join, isAbsolute, extname } from "path";
+import {  moveUpTheDirectory, navigationByDirectories, readFile, sayCurrentlyPath, sayGoodby, sayHallo, showDirectory } from "./helper.js";
 
-import { moveUpTheDirectory, navigationByDirectories, readFile, sayCurrentlyPath, sayGoodby, sayHallo, showDirectory } from "./helper.js";
-import { join } from "path";
 const rl = readline.createInterface(process.stdin, process.stdout);
 
 const userHomeDir = homedir();
@@ -24,15 +24,16 @@ function promptInput(prompt, handler) {
 }
 
 
-
 promptInput("app>", (input) => {
   const strFromConsole = input.replace(/ +/g, " ").trim().split(" ");
   const command = strFromConsole[0];
   const params = strFromConsole.length > 1 ? strFromConsole[1] : "";
 
   switch (true) {
-    case "up":
-       moveUpTheDirectory().then(() => sayCurrentlyPath(currentPath));
+    case command === "up":
+       moveUpTheDirectory(currentPath).then((path) => {
+        currentPath = path
+        sayCurrentlyPath(currentPath)});
       break;
     case "cd":
       navigationByDirectories(params).then(() => sayCurrentlyPath(currentPath));

@@ -15,12 +15,13 @@ export const sayCurrentlyPath = (currentPath) => {
 };
 
 
-export const moveUpTheDirectory = async () => {
-  currentPath = join(currentPath, "..");
-}
+export const moveUpTheDirectory = async (path) => {
+  return path = join(path, "..");
+ }
+ 
+
 export const navigationByDirectories = async (directory) => {
   
-
   if (path.extname(directory)) {
     console.log(`cd: not a directory: ${newPath}`);
     return;
