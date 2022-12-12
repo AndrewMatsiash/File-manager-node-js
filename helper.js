@@ -1,5 +1,3 @@
-import path, { join, isAbsolute, extname } from "path";
-import * as fsPromise from "fs/promises";
 
 export const sayHallo = (userName) => {
   console.log(`Welcome to the File Manager, ${userName}!`);
@@ -10,5 +8,5 @@ export const sayGoodby = (userName) => {
 };
 
 export const sayCurrentlyPath = (currentPath) => {
-  console.log(`You are currently in ${currentPath}`);
+  console.log(`You are currently in ${process.cwd()}`);
 };

@@ -13,15 +13,16 @@ import { copyFile } from "./fs/copyFile.js";
 import { showOsParameter } from "./os/showOsParameter.js";
 import { moveFile } from "./fs/moveFile.js";
 import { showHashFile } from "./hash/showHashFile.js";
+import { cwd } from "process";
 
 const rl = readline.createInterface(process.stdin, process.stdout);
 
 const userHomeDir = homedir();
 const userName = process.argv.at(-1).split("=")[1];
-let currentPath = process.cwd();
+process.chdir(userHomeDir);
 
 sayHallo(userName);
-sayCurrentlyPath(currentPath);
+sayCurrentlyPath();
 
 function promptInput(prompt, handler) {
   rl.question(prompt, (input) => {
@@ -33,7 +34,6 @@ function promptInput(prompt, handler) {
   });
 }
 
-
 promptInput("app>", (input) => {
   const strFromConsole = input.replace(/ +/g, " ").trim().split(" ");
   const command = strFromConsole[0];
@@ -43,16 +43,16 @@ promptInput("app>", (input) => {
     case command === "up":
       moveUpTheDirectory();
       break;
-    case "cd" && params.length === 1:
+    case command === "cd" && params.length === 1:
       navigationByDirectories(params[1]);
       break;
     case command === "ls" && params.length === 0:
       showDirectory();
       break;
-    case command === "cat":
+    case command === "cat" && params.length === 1:
       readFile(params);
       break;
-    case command === "add":
+    case command === "add" && params.length === 1:
       createEmptyFile(params[1]);
       break;
     case command === "rn" && params.length === 3:
@@ -68,14 +68,14 @@ promptInput("app>", (input) => {
       showOsParameter(params[1]);
       break;
     case command === "hash" && params.length === 2:
-      showHashFile('sha256', params[1]);
+      showHashFile("sha256", params[1]);
       break;
     case "exit":
       return false;
-      default:
-        console.log('invalid command');
+    default:
+      console.log("invalid command");
   }
-  sayCurrentlyPath(process.cwd());
+  sayCurrentlyPath();
 });
 
 process.on("exit", () => {

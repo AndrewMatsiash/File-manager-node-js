@@ -1,26 +1,24 @@
-import os from 'node:os'
+import os from "node:os";
 
-
-export const showOsParameter =  (params) => {
-  const parameter = params
+export const showOsParameter = (params) => {
+  const parameter = params;
   switch (parameter) {
-    case '--EOL':
+    case "--EOL":
       console.log(JSON.stringify(os.EOL));
       break;
-    case '--cpus':
+    case "--cpus":
       console.log(os.cpus());
       break;
-    case '--homedir':
+    case "--homedir":
       console.log(os.homedir());
       break;
-    case '--username':
+    case "--username":
       console.log(os.userInfo().username);
       break;
-    case '--architecture':
+    case "--architecture":
       console.log(os.arch());
       break;
     default:
       break;
   }
-
-}
+};
