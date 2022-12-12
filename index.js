@@ -1,5 +1,5 @@
 import readline from "readline";
-import os, { homedir } from "os";
+import  { homedir } from "os";
 import { sayCurrentlyPath, sayGoodby, sayHallo } from "./helper.js";
 import { moveUpTheDirectory } from "./fs/moveUpTheDirectory.js";
 import { showDirectory } from "./fs/showDirectory.js";
@@ -7,13 +7,10 @@ import { readFile } from "./fs/readFile.js";
 import { createEmptyFile } from "./fs/createEmptyFile.js";
 import { renameFile } from "./fs/renameFile.js";
 import { navigationByDirectories } from "./fs/navigationByDirectories.js";
-import * as fsPromise from "fs/promises";
-import { pipeline } from "stream/promises";
 import { copyFile } from "./fs/copyFile.js";
 import { showOsParameter } from "./os/showOsParameter.js";
 import { moveFile } from "./fs/moveFile.js";
 import { showHashFile } from "./hash/showHashFile.js";
-import { cwd } from "process";
 
 const rl = readline.createInterface(process.stdin, process.stdout);
 
