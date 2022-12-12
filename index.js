@@ -12,6 +12,7 @@ import * as fsPromise from "fs/promises";
 import fs from "fs";
 import { pipeline } from "stream/promises";
 import { copyFile } from "./fs/copyFile.js";
+import { showOsParameter } from "./os/showOsParameter.js";
 
 const rl = readline.createInterface(process.stdin, process.stdout);
 
@@ -61,6 +62,9 @@ promptInput("app>", (input) => {
       break;
     case command === "mv" && params.length === 3:
       moveFile(params[1], params[2]);
+      break;
+    case command === "os" && params.length === 2:
+      showOsParameter(params[1]);
       break;
     case "exit":
       return false;
