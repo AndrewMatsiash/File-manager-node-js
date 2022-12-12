@@ -8,6 +8,10 @@ import { readFile } from "./fs/readFile.js";
 import { createEmptyFile } from "./fs/createEmptyFile.js";
 import { renameFile } from "./fs/renameFile.js";
 import { navigationByDirectories } from "./fs/navigationByDirectories.js";
+import * as fsPromise from "fs/promises";
+import fs from "fs";
+import { pipeline } from "stream/promises";
+import { copyFile } from "./fs/copyFile.js";
 
 const rl = readline.createInterface(process.stdin, process.stdout);
 
@@ -28,11 +32,7 @@ function promptInput(prompt, handler) {
   });
 }
 
-const copyFile = (file) => {
-  const readStream = fsPromise.createReadStream(path.join(process.cw, file));
-  const writeStream = fsPromise.createWriteStream(path.join(currentPath, file));
-  readStream.pipe(readStream,writeStream);
-};
+
 
 promptInput("app>", (input) => {
   const strFromConsole = input.replace(/ +/g, " ").trim().split(" ");
@@ -44,7 +44,7 @@ promptInput("app>", (input) => {
       moveUpTheDirectory();
       break;
     case "cd" && params.length === 1:
-      navigationByDirectories(params[1])
+      navigationByDirectories(params[1]);
       break;
     case command === "ls" && params.length === 0:
       showDirectory();
@@ -56,7 +56,7 @@ promptInput("app>", (input) => {
       createEmptyFile(params[1]);
       break;
     case command === "rn" && params.length === 3:
-      renameFile(params[1], params[2])
+      renameFile(params[1], params[2]);
       break;
     case command === "cp" && params.length === 3:
       copyFile(params[1], params[2]);
