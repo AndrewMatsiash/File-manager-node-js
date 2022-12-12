@@ -32,8 +32,6 @@ function promptInput(prompt, handler) {
   });
 }
 
-
-
 promptInput("app>", (input) => {
   const strFromConsole = input.replace(/ +/g, " ").trim().split(" ");
   const command = strFromConsole[0];
@@ -61,8 +59,13 @@ promptInput("app>", (input) => {
     case command === "cp" && params.length === 3:
       copyFile(params[1], params[2]);
       break;
+    case command === "mv" && params.length === 3:
+      moveFile(params[1], params[2]);
+      break;
     case "exit":
       return false;
+      default:
+        console.log('invalid command');
   }
   sayCurrentlyPath(process.cwd());
 });
