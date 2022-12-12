@@ -5,7 +5,7 @@ import path from "path";
 
 export const copyFile = async (pathFile, pathDirCopyFile) => {
   try {
-    await fsPromise.stat(pathFile);
+    await fsPromise.stat(path.join(pathFile));
     const nameFile = path.basename(pathFile);
 		const readStream = fs.createReadStream(path.join(pathFile),{flags: "r"});
     const writeStream = fs.createWriteStream(path.join(pathDirCopyFile, nameFile),{flags: "wx"});

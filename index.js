@@ -1,6 +1,5 @@
 import readline from "readline";
 import os, { homedir } from "os";
-import path from "path";
 import { sayCurrentlyPath, sayGoodby, sayHallo } from "./helper.js";
 import { moveUpTheDirectory } from "./fs/moveUpTheDirectory.js";
 import { showDirectory } from "./fs/showDirectory.js";
@@ -9,10 +8,11 @@ import { createEmptyFile } from "./fs/createEmptyFile.js";
 import { renameFile } from "./fs/renameFile.js";
 import { navigationByDirectories } from "./fs/navigationByDirectories.js";
 import * as fsPromise from "fs/promises";
-import fs from "fs";
 import { pipeline } from "stream/promises";
 import { copyFile } from "./fs/copyFile.js";
 import { showOsParameter } from "./os/showOsParameter.js";
+import { moveFile } from "./fs/moveFile.js";
+import { showHashFile } from "./hash/showHashFile.js";
 
 const rl = readline.createInterface(process.stdin, process.stdout);
 
@@ -32,6 +32,7 @@ function promptInput(prompt, handler) {
     }
   });
 }
+
 
 promptInput("app>", (input) => {
   const strFromConsole = input.replace(/ +/g, " ").trim().split(" ");
@@ -65,6 +66,9 @@ promptInput("app>", (input) => {
       break;
     case command === "os" && params.length === 2:
       showOsParameter(params[1]);
+      break;
+    case command === "hash" && params.length === 2:
+      showHashFile('sha256', params[1]);
       break;
     case "exit":
       return false;
