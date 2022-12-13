@@ -1,5 +1,5 @@
 import readline from "readline";
-import  { homedir } from "os";
+import { homedir } from "os";
 import { sayCurrentlyPath, sayGoodby, sayHallo } from "./helper.js";
 import { moveUpTheDirectory } from "./fs/moveUpTheDirectory.js";
 import { showDirectory } from "./fs/showDirectory.js";
@@ -34,7 +34,7 @@ function promptInput(prompt, handler) {
 promptInput("app>", (input) => {
   const strFromConsole = input.replace(/ +/g, " ").trim().split(" ");
   const command = strFromConsole[0];
-  const params = strFromConsole.length > 1 ? strFromConsole : "";
+  const params = strFromConsole.length > 1 ? strFromConsole.splice(1) : "";
 
   switch (true) {
     case command === "up":
@@ -47,26 +47,29 @@ promptInput("app>", (input) => {
       showDirectory();
       break;
     case command === "cat" && params.length === 1:
-      readFile(params);
+      readFile(params[0]);
       break;
     case command === "add" && params.length === 1:
-      createEmptyFile(params[1]);
+      createEmptyFile(params[0]);
       break;
-    case command === "rn" && params.length === 3:
-      renameFile(params[1], params[2]);
+    case command === "rn" && params.length === 2:
+      renameFile(params[0], params[1]);
       break;
-    case command === "cp" && params.length === 3:
-      copyFile(params[1], params[2]);
+    case command === "cp" && params.length === 2:
+      copyFile(params[0], params[1]);
       break;
-    case command === "mv" && params.length === 3:
-      moveFile(params[1], params[2]);
+    case command === "mv" && params.length === 2:
+      moveFile(params[0], params[1]);
       break;
-    case command === "os" && params.length === 2:
-      showOsParameter(params[1]);
+    case command === "os" && params.length === 1:
+      showOsParameter(params[0]);
       break;
-    case command === "hash" && params.length === 2:
-      showHashFile("sha256", params[1]);
+    case command === "hash" && params.length === 1:
+      showHashFile("sha256", params[0]);
       break;
+    // case command === "hash" && params.length === 1:
+    //   showHashFile("sha256", params[0]);
+    //   break;
     case "exit":
       return false;
     default:
