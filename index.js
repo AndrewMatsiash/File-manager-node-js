@@ -41,7 +41,7 @@ promptInput("app>", (input) => {
       moveUpTheDirectory();
       break;
     case command === "cd" && params.length === 1:
-      navigationByDirectories(params[1]);
+      navigationByDirectories(params[0]);
       break;
     case command === "ls" && params.length === 0:
       showDirectory();
