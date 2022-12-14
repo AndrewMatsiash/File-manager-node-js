@@ -37,7 +37,7 @@ promptInput("app>", (input) => {
   const params = strFromConsole.length > 1 ? strFromConsole.splice(1) : "";
 
   switch (true) {
-    case command === "up":
+    case command === "up" && params.length === 0:
       moveUpTheDirectory();
       break;
     case command === "cd" && params.length === 1:
@@ -67,9 +67,12 @@ promptInput("app>", (input) => {
     case command === "hash" && params.length === 1:
       showHashFile("sha256", params[0]);
       break;
-    // case command === "hash" && params.length === 1:
-    //   showHashFile("sha256", params[0]);
-    //   break;
+    case command === "compress" && params.length === 2:
+      compressFile(params[0], params[1]);
+      break;
+    case command === "decompress" && params.length === 2:
+      decompressFile(params[0], params[1]);
+      break;
     case "exit":
       return false;
     default:
