@@ -51,7 +51,7 @@ promptInput("app>", async (input) => {
       text && console.log(text);
       break;
     case command === "add" && params.length === 1:
-      createEmptyFile(params[0]);
+      await createEmptyFile(params[0]);
       break;
     case command === "rn" && params.length === 2:
       renameFile(params[0], params[1]);
