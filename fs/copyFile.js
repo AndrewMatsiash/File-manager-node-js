@@ -18,11 +18,14 @@ export const copyFile = async (pathFile, pathDirCopyFile) => {
       return;
     }
 
+    const pathToFile = path.isAbsolute(pathFile) ? pathFile : path.join(process.cwd(), pathFile);
+    const pathToDir = path.isAbsolute(pathDirCopyFile) ? pathDirCopyFile : path.join(process.cwd(), pathDirCopyFile);
+
     const nameFile = path.basename(pathFile);
-    const readStream = fs.createReadStream(path.join(pathFile), { flags: "r" });
-    const writeStream = fs.createWriteStream(path.join(pathDirCopyFile, nameFile), { flags: "wx" });
+    const readStream = fs.createReadStream(pathToFile, { flags: "r" });
+    const writeStream = fs.createWriteStream(path.join(pathToDir, nameFile), { flags: "wx" });
     await pipeline(readStream, writeStream);
   } catch {
-    console.log("wong path");
+    console.log("wrong path");
   }
 };
