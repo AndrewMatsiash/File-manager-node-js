@@ -31,7 +31,7 @@ function promptInput(prompt, handler) {
   });
 }
 
-promptInput("app>", (input) => {
+promptInput("app>", async (input) => {
   const strFromConsole = input.replace(/ +/g, " ").trim().split(" ");
   const command = strFromConsole[0];
   const params = strFromConsole.length > 1 ? strFromConsole.splice(1) : "";
@@ -47,7 +47,8 @@ promptInput("app>", (input) => {
       showDirectory();
       break;
     case command === "cat" && params.length === 1:
-      readFile(params[0]);
+      const text = await readFile(params[0]);
+      text && console.log(text);
       break;
     case command === "add" && params.length === 1:
       createEmptyFile(params[0]);
