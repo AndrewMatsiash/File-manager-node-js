@@ -7,10 +7,10 @@ import { readFile } from "./fs/readFile.js";
 import { createEmptyFile } from "./fs/createEmptyFile.js";
 import { renameFile } from "./fs/renameFile.js";
 import { navigationByDirectories } from "./fs/navigationByDirectories.js";
-import { copyFile } from "./fs/copyFile.js";
 import { showOsParameter } from "./os/showOsParameter.js";
 import { moveFile } from "./fs/moveFile.js";
 import { showHashFile } from "./hash/showHashFile.js";
+import { copyFile } from "./fs/copyFile.js";
 
 const rl = readline.createInterface(process.stdin, process.stdout);
 

@@ -19,6 +19,7 @@ export const showOsParameter = (params) => {
       console.log(os.arch());
       break;
     default:
+      console.log("invalid command");
       break;
   }
 };

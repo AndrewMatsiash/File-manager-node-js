@@ -2,7 +2,7 @@ import * as fsPromise from "fs/promises";
 import fs from "fs";
 import { pipeline } from "stream/promises";
 import path from "path";
-import { getDataPath } from "../helper";
+import { getDataPath } from "../helper.js";
 
 export const copyFile = async (pathFile, pathDirCopyFile) => {
   try {
