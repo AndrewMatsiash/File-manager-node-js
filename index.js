@@ -11,6 +11,8 @@ import { showOsParameter } from "./os/showOsParameter.js";
 import { moveFile } from "./fs/moveFile.js";
 import { showHashFile } from "./hash/showHashFile.js";
 import { copyFile } from "./fs/copyFile.js";
+import { compressFile } from "./zlib/compress.js";
+import { decompressFile } from "./zlib/decompress.js";
 
 const rl = readline.createInterface(process.stdin, process.stdout);
 
